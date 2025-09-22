@@ -20,23 +20,23 @@
     <tr>
       <td align="center">
         <img src="docs/assets/logo-32.png" width="32" height="32" alt="32px"><br>
-        <sub>32�32</sub>
+        <sub>32x32</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-64.png" width="64" height="64" alt="64px"><br>
-        <sub>64�64</sub>
+        <sub>64x64</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-128.png" width="128" height="128" alt="128px"><br>
-        <sub>128�128</sub>
+        <sub>128x128</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-256.png" width="256" height="256" alt="256px"><br>
-        <sub>256�256</sub>
+        <sub>256x256</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-512.png" width="512" height="512" alt="512px"><br>
-        <sub>512�512</sub>
+        <sub>512x512</sub>
       </td>
     </tr>
   </table>
@@ -66,12 +66,12 @@
 
 ## Features
 
-- =: **Minimalist Triangle Design** - Clean, geometric upside-down triangle logo
-- � **React Components** - Ready-to-use React components with TypeScript support
-- <� **Multiple Variants** - Color (white), monochrome, and menu bar optimized versions
-- =� **Icon Generation** - Generate icons in all required sizes for web and desktop apps
-- =� **Platform Icons** - macOS dock icons, menu bar icons, and favicons
-- =' **TypeScript Native** - Full TypeScript support with proper type definitions
+- 🔺 **Minimalist Triangle Design** - Clean, geometric upside-down triangle logo
+- ⚛️ **React Components** - Ready-to-use React components with TypeScript support
+- 🎯 **Multiple Variants** - Color (white), monochrome, and menu bar optimized versions
+- 📦 **Icon Generation** - Generate icons in all required sizes for web and desktop apps
+- 🖥️ **Platform Icons** - macOS dock icons, menu bar icons, and favicons
+- 🔧 **TypeScript Native** - Full TypeScript support with proper type definitions
 
 ## Installation
 
