@@ -1,7 +1,7 @@
 /**
- * @hanzo/logo - Official Hanzo Logo Package
+ * @lux/logo - Official Lux Logo Package
  *
- * Provides Hanzo logos in various formats for use in applications
+ * Provides Lux logos in various formats for use in applications
  */
 
 export * from './logos.js';

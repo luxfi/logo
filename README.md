@@ -1,11 +1,11 @@
 <div align="center">
-  <img src="docs/assets/logo-macos-dock.png" alt="Hanzo Logo" width="256" height="256">
+  <img src="docs/assets/logo-macos-dock.png" alt="Lux Logo" width="256" height="256">
 
-  # @hanzo/logo
+  # @lux/logo
 
-  Official Hanzo logo package providing TypeScript/React components and utilities for consistent branding across the Hanzo ecosystem.
+  Official Lux logo package providing TypeScript/React components and utilities for consistent branding across the Lux ecosystem.
 
-  [![npm version](https://img.shields.io/npm/v/@hanzo/logo)](https://www.npmjs.com/package/@hanzo/logo)
+  [![npm version](https://img.shields.io/npm/v/@lux/logo)](https://www.npmjs.com/package/@lux/logo)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 </div>
@@ -15,28 +15,28 @@
 <div align="center">
   <table>
     <tr>
-      <th colspan="5">Hanzo Logo - Multiple Sizes</th>
+      <th colspan="5">Lux Logo - Multiple Sizes</th>
     </tr>
     <tr>
       <td align="center">
         <img src="docs/assets/logo-32.png" width="32" height="32" alt="32px"><br>
-        <sub>32√ó32</sub>
+        <sub>32◊32</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-64.png" width="64" height="64" alt="64px"><br>
-        <sub>64√ó64</sub>
+        <sub>64◊64</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-128.png" width="128" height="128" alt="128px"><br>
-        <sub>128√ó128</sub>
+        <sub>128◊128</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-256.png" width="256" height="256" alt="256px"><br>
-        <sub>256√ó256</sub>
+        <sub>256◊256</sub>
       </td>
       <td align="center">
         <img src="docs/assets/logo-512.png" width="512" height="512" alt="512px"><br>
-        <sub>512√ó512</sub>
+        <sub>512◊512</sub>
       </td>
     </tr>
   </table>
@@ -66,21 +66,21 @@
 
 ## Features
 
-- üé® **SVG Logo Generation** - Programmatically generate Hanzo logos in multiple formats
-- ‚öõÔ∏è **React Components** - Ready-to-use React components with TypeScript support
-- üéØ **Multiple Variants** - Color, monochrome, and menu bar optimized versions
-- üì¶ **Icon Generation** - Generate icons in all required sizes for web and desktop apps
-- üñ•Ô∏è **Platform Icons** - macOS dock icons, menu bar icons, and favicons
-- üîß **TypeScript Native** - Full TypeScript support with proper type definitions
+- =: **Minimalist Triangle Design** - Clean, geometric upside-down triangle logo
+- õ **React Components** - Ready-to-use React components with TypeScript support
+- <Ø **Multiple Variants** - Color (white), monochrome, and menu bar optimized versions
+- =Ê **Icon Generation** - Generate icons in all required sizes for web and desktop apps
+- =• **Platform Icons** - macOS dock icons, menu bar icons, and favicons
+- =' **TypeScript Native** - Full TypeScript support with proper type definitions
 
 ## Installation
 
 ```bash
-npm install @hanzo/logo
+npm install @lux/logo
 # or
-yarn add @hanzo/logo
+yarn add @lux/logo
 # or
-pnpm add @hanzo/logo
+pnpm add @lux/logo
 ```
 
 ## Quick Start
@@ -88,27 +88,27 @@ pnpm add @hanzo/logo
 ### React Component
 
 ```tsx
-import { HanzoLogo } from '@hanzo/logo/react';
+import { LuxLogo } from '@lux/logo/react';
 
-<HanzoLogo size={128} />
-<HanzoLogo variant="mono" size={64} />
-<HanzoLogo variant="white" className="w-16 h-16" />
+<LuxLogo size={128} />
+<LuxLogo variant="mono" size={64} />
+<LuxLogo variant="white" className="w-16 h-16" />
 ```
 
 ### SVG Generation
 
 ```ts
-import { getColorSVG, getMonoSVG, getWhiteSVG } from '@hanzo/logo';
+import { getColorSVG, getMonoSVG, getWhiteSVG } from '@lux/logo';
 
-const colorLogo = getColorSVG();
-const monoLogo = getMonoSVG();
-const whiteLogo = getWhiteSVG();
+const colorLogo = getColorSVG();  // White triangle
+const monoLogo = getMonoSVG();    // Outlined triangle
+const whiteLogo = getWhiteSVG();  // Solid white triangle
 ```
 
 ### Icon Generation
 
 ```ts
-import { generateIcon, getColorSVGCropped } from '@hanzo/logo';
+import { generateIcon, getColorSVGCropped } from '@lux/logo';
 
 // Generate macOS dock icon
 const svg = getColorSVGCropped();
@@ -117,8 +117,8 @@ await generateIcon(svg, 'dock-icon.png', 512, true);
 
 ## License
 
-MIT ¬© Hanzo AI
+MIT © Lux Network
 
 ## Support
 
-For issues, questions, or suggestions, visit [GitHub Issues](https://github.com/hanzoai/logo/issues)
+For issues, questions, or suggestions, visit [GitHub Issues](https://github.com/luxfi/logo/issues)

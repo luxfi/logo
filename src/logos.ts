@@ -1,11 +1,11 @@
 import type { LogoSettings, LogoOptions } from './types.js';
 
-// Hanzo logo settings
+// Lux logo settings - upside down triangle
 export const LOGO_SETTINGS: LogoSettings = {
   color: {
-    viewBox: '0 0 67 67',
-    width: 67,
-    height: 67
+    viewBox: '0 0 100 100',
+    width: 100,
+    height: 100
   },
   mono: {
     strokeWidth: 2
@@ -13,17 +13,11 @@ export const LOGO_SETTINGS: LogoSettings = {
 };
 
 /**
- * Generate Hanzo color SVG logo
+ * Generate Lux color SVG logo (white upside-down triangle)
  */
 export function getColorSVG(): string {
-  return `<svg viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22.21 67V44.6369H0V67H22.21Z" fill="#ffffff"/>
-    <path d="M0 44.6369L22.21 46.8285V44.6369H0Z" fill="#DDDDDD"/>
-    <path d="M66.7038 22.3184H22.2534L0.0878906 44.6367H44.4634L66.7038 22.3184Z" fill="#ffffff"/>
-    <path d="M22.21 0H0V22.3184H22.21V0Z" fill="#ffffff"/>
-    <path d="M66.7198 0H44.5098V22.3184H66.7198V0Z" fill="#ffffff"/>
-    <path d="M66.6753 22.3185L44.5098 20.0822V22.3185H66.6753Z" fill="#DDDDDD"/>
-    <path d="M66.7198 67V44.6369H44.5098V67H66.7198Z" fill="#ffffff"/>
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 85 L15 25 L85 25 Z" fill="#ffffff"/>
   </svg>`;
 }
 
@@ -31,14 +25,8 @@ export function getColorSVG(): string {
  * Generate monochrome SVG logo
  */
 export function getMonoSVG(): string {
-  return `<svg viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22.21 67V44.6369H0V67H22.21Z" fill="none" stroke="black" stroke-width="1"/>
-    <path d="M0 44.6369L22.21 46.8285V44.6369H0Z" fill="none" stroke="black" stroke-width="1"/>
-    <path d="M66.7038 22.3184H22.2534L0.0878906 44.6367H44.4634L66.7038 22.3184Z" fill="none" stroke="black" stroke-width="1"/>
-    <path d="M22.21 0H0V22.3184H22.21V0Z" fill="none" stroke="black" stroke-width="1"/>
-    <path d="M66.7198 0H44.5098V22.3184H66.7198V0Z" fill="none" stroke="black" stroke-width="1"/>
-    <path d="M66.6753 22.3185L44.5098 20.0822V22.3185H66.6753Z" fill="none" stroke="black" stroke-width="1"/>
-    <path d="M66.7198 67V44.6369H44.5098V67H66.7198Z" fill="none" stroke="black" stroke-width="1"/>
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 85 L15 25 L85 25 Z" fill="none" stroke="black" stroke-width="2"/>
   </svg>`;
 }
 
@@ -46,7 +34,7 @@ export function getMonoSVG(): string {
  * Generate tightly cropped color SVG logo
  */
 export function getColorSVGCropped(): string {
-  // Hanzo logo is already minimal, return as-is
+  // Already minimal, return as-is
   return getColorSVG();
 }
 
@@ -54,22 +42,18 @@ export function getColorSVGCropped(): string {
  * Generate white SVG logo (for dark backgrounds)
  */
 export function getWhiteSVG(): string {
-  return getMonoSVG().replace(/stroke="black"/g, 'stroke="white"');
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 85 L15 25 L85 25 Z" fill="white"/>
+  </svg>`;
 }
 
 /**
  * Generate monochrome SVG for menu bar (filled, tightly cropped)
  */
 export function getMenuBarSVG(): string {
-  // For menu bar, we want a solid filled version for better visibility at small sizes
-  return `<svg viewBox="0 0 67 67" xmlns="http://www.w3.org/2000/svg">
-    <path d="M22.21 67V44.6369H0V67H22.21Z" fill="currentColor"/>
-    <path d="M0 44.6369L22.21 46.8285V44.6369H0Z" fill="currentColor"/>
-    <path d="M66.7038 22.3184H22.2534L0.0878906 44.6367H44.4634L66.7038 22.3184Z" fill="currentColor"/>
-    <path d="M22.21 0H0V22.3184H22.21V0Z" fill="currentColor"/>
-    <path d="M66.7198 0H44.5098V22.3184H66.7198V0Z" fill="currentColor"/>
-    <path d="M66.6753 22.3185L44.5098 20.0822V22.3185H66.6753Z" fill="currentColor"/>
-    <path d="M66.7198 67V44.6369H44.5098V67H66.7198Z" fill="currentColor"/>
+  // For menu bar, solid filled version for better visibility at small sizes
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50 85 L15 25 L85 25 Z" fill="currentColor"/>
   </svg>`;
 }
 
@@ -140,9 +124,9 @@ export function getLogo(options: LogoOptions = {}): string {
 }
 
 // Export pre-generated versions for convenience
-export const hanzoLogo = getColorSVG();
-export const hanzoLogoMono = getMonoSVG();
-export const hanzoLogoWhite = getWhiteSVG();
-export const hanzoLogoDataUrl = getLogoDataUrl();
-export const hanzoLogoMonoDataUrl = getLogoDataUrl({ variant: 'mono' });
-export const hanzoLogoWhiteDataUrl = getLogoDataUrl({ variant: 'white' });
+export const luxLogo = getColorSVG();
+export const luxLogoMono = getMonoSVG();
+export const luxLogoWhite = getWhiteSVG();
+export const luxLogoDataUrl = getLogoDataUrl();
+export const luxLogoMonoDataUrl = getLogoDataUrl({ variant: 'mono' });
+export const luxLogoWhiteDataUrl = getLogoDataUrl({ variant: 'white' });
