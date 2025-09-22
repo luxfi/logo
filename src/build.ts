@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Hanzo Logo Build Script
- * Generates all required icons for Hanzo ecosystem
+ * Lux Logo Build Script
+ * Generates all required icons for Lux ecosystem
  */
 
 import * as fs from 'fs';
@@ -63,7 +63,7 @@ interface IconConfig {
 }
 
 async function buildAll(): Promise<void> {
-    console.log('🎨 Hanzo Logo Builder\n');
+    console.log('🎨 Lux Logo Builder\n');
 
     const colorSVG = getColorSVG();
     const monoSVG = getMonoSVG();
@@ -75,9 +75,9 @@ async function buildAll(): Promise<void> {
     }
 
     // Save SVG sources
-    fs.writeFileSync('dist/hanzo-logo.svg', colorSVG);
-    fs.writeFileSync('dist/hanzo-logo-mono.svg', monoSVG);
-    fs.writeFileSync('dist/hanzo-logo-menubar.svg', menuBarSVG);
+    fs.writeFileSync('dist/lux-logo.svg', colorSVG);
+    fs.writeFileSync('dist/lux-logo-mono.svg', monoSVG);
+    fs.writeFileSync('dist/lux-logo-menubar.svg', menuBarSVG);
     console.log('✓ Generated SVG sources\n');
 
     // Reference icons

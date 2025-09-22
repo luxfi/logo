@@ -2,7 +2,7 @@ import React from 'react';
 import { getColorSVG, getMonoSVG, getWhiteSVG } from './logos.js';
 import type { LogoVariant } from './types.js';
 
-export interface HanzoLogoProps {
+export interface LuxLogoProps {
   variant?: LogoVariant;
   size?: number | string;
   className?: string;
@@ -10,18 +10,18 @@ export interface HanzoLogoProps {
 }
 
 /**
- * React component for Hanzo logo
+ * React component for Lux logo
  *
  * @example
  * ```tsx
- * import { HanzoLogo } from '@hanzo/logo';
+ * import { LuxLogo } from '@lux/logo';
  *
- * <HanzoLogo size={64} />
- * <HanzoLogo variant="mono" size="2rem" />
- * <HanzoLogo variant="white" className="w-16 h-16" />
+ * <LuxLogo size={64} />
+ * <LuxLogo variant="mono" size="2rem" />
+ * <LuxLogo variant="white" className="w-16 h-16" />
  * ```
  */
-export const HanzoLogo: React.FC<HanzoLogoProps> = ({
+export const LuxLogo: React.FC<LuxLogoProps> = ({
   variant = 'color',
   size = 64,
   className,
@@ -54,17 +54,17 @@ export const HanzoLogo: React.FC<HanzoLogoProps> = ({
 };
 
 /**
- * Hanzo favicon component for <head>
+ * Lux favicon component for <head>
  *
  * @example
  * ```tsx
- * import { HanzoFavicon } from '@hanzo/logo';
+ * import { LuxFavicon } from '@lux/logo';
  *
  * // In your app's <head>
- * <HanzoFavicon />
+ * <LuxFavicon />
  * ```
  */
-export const HanzoFavicon: React.FC = () => {
+export const LuxFavicon: React.FC = () => {
   const svg = getColorSVG();
   const dataUrl = `data:image/svg+xml,${encodeURIComponent(svg)}`;
 
@@ -76,6 +76,6 @@ export const HanzoFavicon: React.FC = () => {
   );
 };
 
-// Export with backwards compatible names
-export { HanzoLogo as ZooLogo };
-export { HanzoFavicon as ZooFavicon };
+// Export with alternative names
+export { LuxLogo as LuxfiLogo };
+export { LuxFavicon as LuxfiFavicon };
