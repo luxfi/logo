@@ -1,5 +1,5 @@
 {
-  "name": "@lux/logo",
+  "name": "@luxfi/logo",
   "version": "1.0.0",
   "description": "Official Lux logo package with React components and utilities",
   "type": "module",
