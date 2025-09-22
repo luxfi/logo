@@ -14,7 +14,7 @@ export interface LuxLogoProps {
  *
  * @example
  * ```tsx
- * import { LuxLogo } from '@lux/logo';
+ * import { LuxLogo } from '@luxfi/logo';
  *
  * <LuxLogo size={64} />
  * <LuxLogo variant="mono" size="2rem" />
@@ -58,7 +58,7 @@ export const LuxLogo: React.FC<LuxLogoProps> = ({
  *
  * @example
  * ```tsx
- * import { LuxFavicon } from '@lux/logo';
+ * import { LuxFavicon } from '@luxfi/logo';
  *
  * // In your app's <head>
  * <LuxFavicon />

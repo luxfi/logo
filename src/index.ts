@@ -1,5 +1,5 @@
 /**
- * @lux/logo - Official Lux Logo Package
+ * @luxfi/logo - Official Lux Logo Package
  *
  * Provides Lux logos in various formats for use in applications
  */
