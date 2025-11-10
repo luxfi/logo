@@ -79,3 +79,9 @@ export const LuxFavicon: React.FC = () => {
 // Export with alternative names
 export { LuxLogo as LuxfiLogo };
 export { LuxFavicon as LuxfiFavicon };
+export { LuxLogo as Logo };
+
+// Wordmark component (logo + text)
+export const Wordmark: React.FC<Omit<LuxLogoProps, 'variant'>> = (props) => {
+  return <LuxLogo {...props} variant="white" />;
+};
