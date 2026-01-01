@@ -58,6 +58,17 @@ export function getMenuBarSVG(): string {
 }
 
 /**
+ * Generate favicon SVG (white triangle on black background)
+ * Optimized for small sizes (16px-64px)
+ */
+export function getFaviconSVG(): string {
+  return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <rect width="64" height="64" rx="8" fill="#000000"/>
+    <path d="M32 52 L12 18 L52 18 Z" fill="#ffffff"/>
+  </svg>`;
+}
+
+/**
  * Get logo as data URL
  */
 export function getLogoDataUrl(options: LogoOptions = {}): string {
