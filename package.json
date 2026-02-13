@@ -16,6 +16,11 @@
       "import": "./dist/index.js",
       "require": "./dist/index.js"
     },
+    "./logos": {
+      "types": "./dist/logos.d.ts",
+      "import": "./dist/logos.js",
+      "require": "./dist/logos.js"
+    },
     "./react": {
       "types": "./dist/react.d.ts",
       "import": "./dist/react.js",
