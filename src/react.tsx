@@ -2,7 +2,7 @@ import React from 'react';
 import { getColorSVG, getMonoSVG, getWhiteSVG } from './logos.js';
 import type { LogoVariant } from './types.js';
 
-export interface LuxLogoProps {
+export interface LogoProps {
   variant?: LogoVariant;
   size?: number | string;
   className?: string;
@@ -10,64 +10,47 @@ export interface LuxLogoProps {
 }
 
 /**
- * React component for Lux logo
+ * ▼ Logo component
  *
  * @example
  * ```tsx
- * import { LuxLogo } from '@luxfi/logo';
+ * import { Logo } from '@luxfi/logo';
  *
- * <LuxLogo size={64} />
- * <LuxLogo variant="mono" size="2rem" />
- * <LuxLogo variant="white" className="w-16 h-16" />
+ * <Logo size={64} />
+ * <Logo variant="mono" size="2rem" />
+ * <Logo variant="white" className="w-16 h-16" />
  * ```
  */
-export const LuxLogo: React.FC<LuxLogoProps> = ({
+export const Logo: React.FC<LogoProps> = ({
   variant = 'color',
   size = 64,
   className,
   style
 }) => {
   let svg = '';
-
   switch (variant) {
-    case 'mono':
-      svg = getMonoSVG();
-      break;
-    case 'white':
-      svg = getWhiteSVG();
-      break;
-    default:
-      svg = getColorSVG();
+    case 'mono': svg = getMonoSVG(); break;
+    case 'white': svg = getWhiteSVG(); break;
+    default: svg = getColorSVG();
   }
 
-  const sizeStyle = typeof size === 'number'
-    ? { width: size, height: size }
-    : { width: size, height: size };
+  const dim = typeof size === 'number' ? { width: size, height: size } : { width: size, height: size };
 
   return (
     <div
       className={className}
-      style={{ ...sizeStyle, ...style }}
+      style={{ ...dim, ...style }}
       dangerouslySetInnerHTML={{ __html: svg }}
     />
   );
 };
 
 /**
- * Lux favicon component for <head>
- *
- * @example
- * ```tsx
- * import { LuxFavicon } from '@luxfi/logo';
- *
- * // In your app's <head>
- * <LuxFavicon />
- * ```
+ * Favicon component for <head>
  */
-export const LuxFavicon: React.FC = () => {
+export const Favicon: React.FC = () => {
   const svg = getColorSVG();
   const dataUrl = `data:image/svg+xml,${encodeURIComponent(svg)}`;
-
   return (
     <>
       <link rel="icon" type="image/svg+xml" href={dataUrl} />
@@ -76,12 +59,11 @@ export const LuxFavicon: React.FC = () => {
   );
 };
 
-// Export with alternative names
-export { LuxLogo as LuxfiLogo };
-export { LuxFavicon as LuxfiFavicon };
-export { LuxLogo as Logo };
+// Legacy aliases
+export { Logo as LuxLogo, Logo as LuxfiLogo };
+export { Favicon as LuxFavicon, Favicon as LuxfiFavicon };
 
-// Wordmark component (logo + text)
-export const Wordmark: React.FC<Omit<LuxLogoProps, 'variant'>> = (props) => {
-  return <LuxLogo {...props} variant="white" />;
-};
+/** Wordmark = white ▼ triangle */
+export const Wordmark: React.FC<Omit<LogoProps, 'variant'>> = (props) => (
+  <Logo {...props} variant="white" />
+);
