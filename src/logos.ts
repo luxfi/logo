@@ -1,6 +1,9 @@
 import type { LogoSettings, LogoOptions } from './types.js';
 
-// Lux logo settings - upside down triangle
+// Default logo: ▼ (downward-pointing triangle)
+// This is the universal placeholder. White-label products use their own brand override.
+// When no brand is configured, ▼ shows — intentional, clean, not broken.
+
 export const LOGO_SETTINGS: LogoSettings = {
   color: {
     viewBox: '0 0 100 100',
@@ -12,55 +15,43 @@ export const LOGO_SETTINGS: LogoSettings = {
   }
 };
 
-/**
- * Generate Lux color SVG logo (white upside-down triangle)
- */
+// ▼ — the triangle path used everywhere
+const TRIANGLE = 'M50 85 L15 25 L85 25 Z';
+
+/** Color SVG logo (white ▼ on transparent) */
 export function getColorSVG(): string {
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 85 L15 25 L85 25 Z" fill="#ffffff"/>
+    <path d="${TRIANGLE}" fill="#ffffff"/>
   </svg>`;
 }
 
-/**
- * Generate monochrome SVG logo
- */
+/** Monochrome SVG logo (outline ▼) */
 export function getMonoSVG(): string {
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 85 L15 25 L85 25 Z" fill="none" stroke="black" stroke-width="2"/>
+    <path d="${TRIANGLE}" fill="none" stroke="black" stroke-width="2"/>
   </svg>`;
 }
 
-/**
- * Generate tightly cropped color SVG logo
- */
+/** Tightly cropped color SVG */
 export function getColorSVGCropped(): string {
-  // Already minimal, return as-is
   return getColorSVG();
 }
 
-/**
- * Generate white SVG logo (for dark backgrounds)
- */
+/** White SVG logo (for dark backgrounds) */
 export function getWhiteSVG(): string {
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 85 L15 25 L85 25 Z" fill="white"/>
+    <path d="${TRIANGLE}" fill="white"/>
   </svg>`;
 }
 
-/**
- * Generate monochrome SVG for menu bar (filled, tightly cropped)
- */
+/** Menu bar SVG (uses currentColor for OS theme) */
 export function getMenuBarSVG(): string {
-  // For menu bar, solid filled version for better visibility at small sizes
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path d="M50 85 L15 25 L85 25 Z" fill="currentColor"/>
+    <path d="${TRIANGLE}" fill="currentColor"/>
   </svg>`;
 }
 
-/**
- * Generate favicon SVG (white triangle on black background)
- * Optimized for small sizes (16px-64px)
- */
+/** Favicon SVG (white ▼ on black rounded rect) */
 export function getFaviconSVG(): string {
   return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
     <rect width="64" height="64" rx="8" fill="#000000"/>
@@ -68,76 +59,34 @@ export function getFaviconSVG(): string {
   </svg>`;
 }
 
-/**
- * Get logo as data URL
- */
+/** Get logo as data URL */
 export function getLogoDataUrl(options: LogoOptions = {}): string {
-  const { variant = 'color' } = options;
-  let svg = '';
-
-  switch (variant) {
-    case 'mono':
-      svg = getMonoSVG();
-      break;
-    case 'white':
-      svg = getWhiteSVG();
-      break;
-    default:
-      svg = getColorSVG();
-  }
-
+  const svg = getLogo({ ...options, format: 'svg' });
   const base64 = btoa(unescape(encodeURIComponent(svg)));
   return `data:image/svg+xml;base64,${base64}`;
 }
 
-/**
- * Get logo as base64 string
- */
+/** Get logo as base64 string */
 export function getLogoBase64(options: LogoOptions = {}): string {
-  const { variant = 'color' } = options;
-  let svg = '';
-
-  switch (variant) {
-    case 'mono':
-      svg = getMonoSVG();
-      break;
-    case 'white':
-      svg = getWhiteSVG();
-      break;
-    default:
-      svg = getColorSVG();
-  }
-
+  const svg = getLogo({ ...options, format: 'svg' });
   return btoa(unescape(encodeURIComponent(svg)));
 }
 
-/**
- * Get logo in requested format
- */
+/** Get logo in requested format */
 export function getLogo(options: LogoOptions = {}): string {
   const { variant = 'color', format = 'svg' } = options;
 
-  switch (format) {
-    case 'dataUrl':
-      return getLogoDataUrl({ variant });
-    case 'base64':
-      return getLogoBase64({ variant });
-    default:
-      switch (variant) {
-        case 'mono':
-          return getMonoSVG();
-        case 'white':
-          return getWhiteSVG();
-        default:
-          return getColorSVG();
-      }
+  if (format === 'dataUrl') return getLogoDataUrl({ variant });
+  if (format === 'base64') return getLogoBase64({ variant });
+
+  switch (variant) {
+    case 'mono': return getMonoSVG();
+    case 'white': return getWhiteSVG();
+    default: return getColorSVG();
   }
 }
 
-/**
- * Generate LUX wordmark SVG (white text)
- * Uses production paths from design/lux wordmark.svg
- */
+/** ▼ wordmark SVG — the LUX text rendered as paths */
 export function getWordmarkSVG(): string {
   return `<svg width="126" height="34" viewBox="0 0 63 17" xmlns="http://www.w3.org/2000/svg">
   <g fill="#ffffff" fill-rule="nonzero">
@@ -147,9 +96,7 @@ export function getWordmarkSVG(): string {
 </svg>`;
 }
 
-/**
- * Generate LUX wordmark SVG with metal gradient
- */
+/** ▼ wordmark with metal gradient */
 export function getWordmarkGradientSVG(): string {
   return `<svg width="126" height="34" viewBox="0 0 63 17" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -167,12 +114,22 @@ export function getWordmarkGradientSVG(): string {
 </svg>`;
 }
 
-// Export pre-generated versions for convenience
-export const luxLogo = getColorSVG();
-export const luxLogoMono = getMonoSVG();
-export const luxLogoWhite = getWhiteSVG();
-export const luxWordmark = getWordmarkSVG();
-export const luxWordmarkGradient = getWordmarkGradientSVG();
-export const luxLogoDataUrl = getLogoDataUrl();
-export const luxLogoMonoDataUrl = getLogoDataUrl({ variant: 'mono' });
-export const luxLogoWhiteDataUrl = getLogoDataUrl({ variant: 'white' });
+// Pre-generated exports
+export const logo = getColorSVG();
+export const logoMono = getMonoSVG();
+export const logoWhite = getWhiteSVG();
+export const wordmark = getWordmarkSVG();
+export const wordmarkGradient = getWordmarkGradientSVG();
+export const logoDataUrl = getLogoDataUrl();
+export const logoMonoDataUrl = getLogoDataUrl({ variant: 'mono' });
+export const logoWhiteDataUrl = getLogoDataUrl({ variant: 'white' });
+
+// Legacy aliases
+export const luxLogo = logo;
+export const luxLogoMono = logoMono;
+export const luxLogoWhite = logoWhite;
+export const luxWordmark = wordmark;
+export const luxWordmarkGradient = wordmarkGradient;
+export const luxLogoDataUrl = logoDataUrl;
+export const luxLogoMonoDataUrl = logoMonoDataUrl;
+export const luxLogoWhiteDataUrl = logoWhiteDataUrl;
