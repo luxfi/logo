@@ -43,7 +43,7 @@ const word = getWordmarkSVG() // LUX text as paths
 
 ## Brand Override
 
-This package exports the default ▼ mark. White-label products override via their brand package (`@liquidityio/brand`, `@zooai/brand`, etc.) which provides org-specific logos.
+This package exports the default ▼ mark. White-label products override via their brand package (`@<tenant>/brand`, `@zooai/brand`, etc.) which provides org-specific logos.
 
 ## License
 
