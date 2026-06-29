@@ -1,3 +1,7 @@
+<p align="center">
+  <img src=".github/hero.svg" alt="@luxfi/logo" width="100%" />
+</p>
+
 # ▼ Logo
 
 Universal brand mark. White downward triangle on dark.
@@ -48,3 +52,27 @@ This package exports the default ▼ mark. White-label products override via the
 ## License
 
 All rights reserved.
+
+## Animated & interactive
+
+The mark ships a self-contained, **pure-CSS animated SVG** — a load animation, a
+hover flourish, and a press squash, with **zero JavaScript**. Inline it into the DOM
+(not via `<img>`) for the hover/press interactions to fire. Honors `prefers-reduced-motion`.
+
+```tsx
+// React — one-line interactive embed
+import { Logo } from '@luxfi/logo';
+<Logo variant="animated" size={64} />
+```
+
+```ts
+// Vanilla / any framework
+import { getAnimatedSVG, getAnimatedDataUrl } from '@luxfi/logo';
+el.innerHTML = getAnimatedSVG();   // interactive (inline in the DOM)
+img.src = getAnimatedDataUrl();    // load animation only (fine in <img>)
+```
+
+```html
+<!-- Raw SVG over CDN — load animation in <img>; inline the file for hover/press -->
+<img src="https://unpkg.com/@luxfi/logo/svg/lux-tri-animated.svg" width="64" alt="" />
+```

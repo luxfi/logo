@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="@luxfi/logo">
+  <rect width="1200" height="630" fill="#0A0A0A"/>
+  
+  <svg x="88" y="88" width="76" height="76" viewBox="0 0 100 100"><path d="M50 85 L15 25 L85 25 Z" fill="#ffffff"/></svg>
+  <text x="88" y="349" font-family="'Inter','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-size="80" font-weight="800" letter-spacing="-2" fill="#FFFFFF">@luxfi/logo</text>
+  <text x="88" y="407" font-family="'Inter','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-size="30" font-weight="400" fill="#FFFFFF" opacity="0.62">The Lux mark — one source</text>
+  <line x1="88" y1="502" x2="1112" y2="502" stroke="#FFFFFF" stroke-opacity="0.12"/>
+  <text x="88" y="542" font-family="'Inter','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-size="24" font-weight="500" fill="#FFFFFF" opacity="0.7">github.com/luxfi</text>
+  <text x="1112" y="542" font-family="'Inter','SF Pro Display','Helvetica Neue',Arial,sans-serif" font-size="24" font-weight="500" fill="#FFFFFF" opacity="0.7" text-anchor="end">docs.lux.network</text>
+</svg>

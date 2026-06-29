@@ -1,4 +1,5 @@
 import type { LogoSettings, LogoOptions } from './types.js';
+import { ANIMATED_SVG } from './animated.js';
 
 // Default logo: ▼ (downward-pointing triangle)
 // This is the universal placeholder. White-label products use their own brand override.
@@ -75,6 +76,11 @@ export function getLogoBase64(options: LogoOptions = {}): string {
 /** Get logo in requested format */
 export function getLogo(options: LogoOptions = {}): string {
   const { variant = 'color', format = 'svg' } = options;
+  if (variant === 'animated') {
+    if (format === 'dataUrl') return getAnimatedDataUrl();
+    if (format === 'base64') return btoa(unescape(encodeURIComponent(getAnimatedSVG())));
+    return getAnimatedSVG();
+  }
 
   if (format === 'dataUrl') return getLogoDataUrl({ variant });
   if (format === 'base64') return getLogoBase64({ variant });
@@ -133,3 +139,20 @@ export const luxWordmarkGradient = wordmarkGradient;
 export const luxLogoDataUrl = logoDataUrl;
 export const luxLogoMonoDataUrl = logoMonoDataUrl;
 export const luxLogoWhiteDataUrl = logoWhiteDataUrl;
+
+/**
+ * Interactive animated mark — load (assemble) → hover (one graceful turn,
+ * returns to rest) → press (squash). Pure CSS, no JS. Inline this SVG into
+ * the DOM (not <img>) for the hover/press interactions to fire.
+ */
+export function getAnimatedSVG(): string {
+  return ANIMATED_SVG;
+}
+
+/** Animated mark as a data: URL (load animation runs even in <img>). */
+export function getAnimatedDataUrl(): string {
+  return 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(ANIMATED_SVG)));
+}
+
+export const luxLogoAnimated = ANIMATED_SVG;
+export const luxLogoAnimatedDataUrl = getAnimatedDataUrl();
