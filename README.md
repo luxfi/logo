@@ -2,9 +2,9 @@
   <img src=".github/hero.svg" alt="@luxfi/logo" width="100%" />
 </p>
 
-# ▼ Logo
+# Lux — Brand & Logo Assets
 
-Universal brand mark. White downward triangle on dark.
+Official Lux brand marks in every format and size — SVG, PNG, multi-resolution ICO, favicons, app/dock/tray icons, and social cards. Installable via `@luxfi/logo`, browsable in `dist/`.
 
 ## Install
 
