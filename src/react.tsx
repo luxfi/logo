@@ -1,5 +1,5 @@
 import React from 'react';
-import { getColorSVG, getMonoSVG, getWhiteSVG } from './logos.js';
+import { getColorSVG, getMonoSVG, getWhiteSVG, getAnimatedSVG } from './logos.js';
 import type { LogoVariant } from './types.js';
 
 export interface LogoProps {
@@ -31,6 +31,7 @@ export const Logo: React.FC<LogoProps> = ({
   switch (variant) {
     case 'mono': svg = getMonoSVG(); break;
     case 'white': svg = getWhiteSVG(); break;
+    case 'animated': svg = getAnimatedSVG(); break;
     default: svg = getColorSVG();
   }
 
