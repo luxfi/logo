@@ -52,11 +52,31 @@ export function getMenuBarSVG(): string {
   </svg>`;
 }
 
-/** Favicon SVG (white ▼ on black rounded rect) */
+/**
+ * Favicon SVG — the ▼ in white, keyed in black. No container.
+ *
+ * A favicon does not get to choose what is behind it: browsers paint the active
+ * tab white in light mode and near-black in dark, so the white ▼ that every other
+ * variant uses is invisible on half of them. The keyline is what makes one asset
+ * work on both, and it is drawn thick because at 16px a hairline lands under a
+ * device pixel and the mark closes into a grey lozenge.
+ *
+ * It used to sit on a black rounded rect, which solved the same problem by giving
+ * the mark its own ground. The mark is a triangle; a box around it is a second
+ * shape to recognise, and at tab size the box is most of what you see.
+ *
+ * TRIANGLE, not a second copy of it. This function carried its own path on a
+ * 64-box — so the one place the geometry was supposed to live had a rival, and
+ * moving the mark would have moved everything except the favicon.
+ *
+ * Stroke under fill, as two paths rather than `paint-order`: favicons are
+ * rasterised by more than browsers (ico pipelines, resvg, librsvg), and a
+ * property one of them ignores would silently paint the keyline over the mark.
+ */
 export function getFaviconSVG(): string {
-  return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-    <rect width="64" height="64" rx="8" fill="#000000"/>
-    <path d="M32 52 L12 18 L52 18 Z" fill="#ffffff"/>
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="${TRIANGLE}" fill="none" stroke="#0a0a0a" stroke-width="13" stroke-linejoin="round"/>
+    <path d="${TRIANGLE}" fill="#ffffff"/>
   </svg>`;
 }
 

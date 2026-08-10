@@ -1,6 +1,6 @@
 {
   "name": "@luxfi/logo",
-  "version": "1.0.1",
+  "version": "1.0.8",
   "description": "Official Lux logo package with React components and utilities",
   "type": "module",
   "main": "dist/index.js",

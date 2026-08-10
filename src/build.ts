@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
-import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getWhiteSVG } from './logos.js';
+import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getWhiteSVG, getWordmarkSVG } from './logos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -98,7 +98,7 @@ async function buildAll(): Promise<void> {
     const faviconSVG = getFaviconSVG();
     const whiteSVG = getWhiteSVG();
 
-    const dirs = ['dist', 'dist/icons', 'dist/favicon', 'dist/og', 'dist/apple', 'dist/dock', 'dist/menubar'];
+    const dirs = ['dist', 'dist/icons', 'dist/favicon', 'dist/og', 'dist/apple', 'dist/dock', 'dist/menubar', 'svg'];
     for (const dir of dirs) {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -112,6 +112,16 @@ async function buildAll(): Promise<void> {
     fs.writeFileSync('dist/lux-logo-white.svg', whiteSVG);
     fs.writeFileSync('dist/lux-logo-menubar.svg', menuBarSVG);
     fs.writeFileSync('dist/lux-favicon.svg', faviconSVG);
+
+    // svg/ is what the CDN paths point at — @luxfi/brand names
+    // svg/lux-icon-white.svg and svg/lux-wordmark-white.svg, and every surface that
+    // draws a Lux mark resolves through those. They were maintained BY HAND beside a
+    // generator that already knew the geometry, so the triangle lived in two places
+    // and only one of them was ever regenerated. Written from the same functions as
+    // dist/, so the two can no longer disagree.
+    fs.writeFileSync('svg/lux-icon-white.svg', whiteSVG);
+    fs.writeFileSync('svg/lux-favicon.svg', faviconSVG);
+    fs.writeFileSync('svg/lux-wordmark-white.svg', getWordmarkSVG());
     console.log('✓ Generated 5 SVG sources\n');
 
     // Standard Icons
