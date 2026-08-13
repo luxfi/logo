@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
-import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getWhiteSVG, getWordmarkSVG } from './logos.js';
+import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getWhiteSVG, getWordmarkSVG, getWordmarkAdaptiveSVG, getWordmarkSquareSVG } from './logos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -122,7 +122,11 @@ async function buildAll(): Promise<void> {
     fs.writeFileSync('svg/lux-icon-white.svg', whiteSVG);
     fs.writeFileSync('svg/lux-favicon.svg', faviconSVG);
     fs.writeFileSync('svg/lux-wordmark-white.svg', getWordmarkSVG());
-    console.log('✓ Generated 5 SVG sources\n');
+    // The wordmark on its own, taking contrast from the ground, and squared for
+    // icon slots. Surfaces reach these over the CDN when they cannot import.
+    fs.writeFileSync('svg/lux-wordmark.svg', getWordmarkAdaptiveSVG());
+    fs.writeFileSync('svg/lux-wordmark-square.svg', getWordmarkSquareSVG());
+    console.log('✓ Generated 7 SVG sources\n');
 
     // Standard Icons
     console.log('📁 Standard Icons (dist/icons/):');

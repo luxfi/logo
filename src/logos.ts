@@ -112,17 +112,68 @@ export function getLogo(options: LogoOptions = {}): string {
   }
 }
 
-/** ▼ wordmark SVG — the LUX text rendered as paths */
+// LUX — the wordmark, drawn on a 63×17 box. One copy of the geometry; every
+// wordmark below is this same string under a different fill or transform. It
+// used to be pasted into each function, so the letterforms lived in as many
+// places as there were ways to look at them.
+const WORDMARK = `<polygon points="18 12.485 18 17 0 17 0 0 5.061 0 5.061 12.485"/>
+    <path d="M62.991,0 L56.069,0 L50.841,5.265 L45.64,0 L33.537,0 L33.537,8.355 C33.537,10.39 32.904,12.547 28.355,12.547 C23.805,12.547 23.173,10.418 23.173,8.355 L23.173,0 L18,0 L18,8.355 C18,14.199 21.107,17 28.364,17 C35.593,17 38.728,14.171 38.728,8.355 L38.728,0.327 C38.728,0.215 38.858,0.159 38.942,0.233 L47.25,8.374 L38.7,16.748 L45.649,16.748 L50.85,11.483 L56.078,16.748 L63,16.748 L54.478,8.374 L62.991,0 Z"/>`;
+
+/** The wordmark's own proportions. 63:17 ≈ 3.7:1 — it is a stripe, not a square. */
+export const WORDMARK_BOX = { width: 63, height: 17 };
+
+/** LUX wordmark SVG — the letters as paths, white for dark grounds */
 export function getWordmarkSVG(): string {
   return `<svg width="126" height="34" viewBox="0 0 63 17" xmlns="http://www.w3.org/2000/svg">
   <g fill="#ffffff" fill-rule="nonzero">
-    <polygon points="18 12.485 18 17 0 17 0 0 5.061 0 5.061 12.485"/>
-    <path d="M62.991,0 L56.069,0 L50.841,5.265 L45.64,0 L33.537,0 L33.537,8.355 C33.537,10.39 32.904,12.547 28.355,12.547 C23.805,12.547 23.173,10.418 23.173,8.355 L23.173,0 L18,0 L18,8.355 C18,14.199 21.107,17 28.364,17 C35.593,17 38.728,14.171 38.728,8.355 L38.728,0.327 C38.728,0.215 38.858,0.159 38.942,0.233 L47.25,8.374 L38.7,16.748 L45.649,16.748 L50.85,11.483 L56.078,16.748 L63,16.748 L54.478,8.374 L62.991,0 Z"/>
+    ${WORDMARK}
   </g>
 </svg>`;
 }
 
-/** ▼ wordmark with metal gradient */
+/** LUX wordmark that follows the ground it lands on — dark ink on light, white on dark. */
+export function getWordmarkAdaptiveSVG(): string {
+  return `<svg width="126" height="34" viewBox="0 0 63 17" xmlns="http://www.w3.org/2000/svg">
+  <style>.w{fill:#121312}@media(prefers-color-scheme:dark){.w{fill:#fff}}</style>
+  <g class="w" fill-rule="nonzero">
+    ${WORDMARK}
+  </g>
+</svg>`;
+}
+
+/**
+ * LUX wordmark centred in a square, for icon slots — favicon, apple-touch,
+ * android-chrome, PWA manifest.
+ *
+ * A 3.7:1 wordmark in a 1:1 hole is the whole difficulty. Stretching it to fill
+ * makes fat letters; cropping to fill shows "LU". Both were shipped at some point.
+ * So it is letterboxed: scaled to a fraction of the width and centred, with the
+ * leftover as padding. Aspect ratio is preserved by construction — there is one
+ * scale factor, applied to both axes.
+ *
+ * Legible from about 32px up. Below that the letterforms close; a tab icon at
+ * 16px wants a stacked lockup, which this package does not yet draw.
+ */
+export function getWordmarkSquareSVG(options: { fill?: string; background?: string; inset?: number } = {}): string {
+  const { fill, background, inset = 0.84 } = options;
+  const box = 100;
+  const scale = (box * inset) / WORDMARK_BOX.width;
+  const x = (box - WORDMARK_BOX.width * scale) / 2;
+  const y = (box - WORDMARK_BOX.height * scale) / 2;
+  const ground = background ? `<rect width="${box}" height="${box}" fill="${background}"/>` : '';
+  // No fill given means the mark reads on either ground, the way a favicon must.
+  const paint = fill
+    ? `fill="${fill}"`
+    : `class="w"`;
+  const style = fill ? '' : `<style>.w{fill:#121312}@media(prefers-color-scheme:dark){.w{fill:#fff}}</style>`;
+  return `<svg viewBox="0 0 ${box} ${box}" xmlns="http://www.w3.org/2000/svg">${style}${ground}
+  <g ${paint} fill-rule="nonzero" transform="translate(${+x.toFixed(4)} ${+y.toFixed(4)}) scale(${+scale.toFixed(6)})">
+    ${WORDMARK}
+  </g>
+</svg>`;
+}
+
+/** LUX wordmark with metal gradient */
 export function getWordmarkGradientSVG(): string {
   return `<svg width="126" height="34" viewBox="0 0 63 17" xmlns="http://www.w3.org/2000/svg">
   <defs>
@@ -134,8 +185,7 @@ export function getWordmarkGradientSVG(): string {
     </linearGradient>
   </defs>
   <g fill="url(#metalGradient)" fill-rule="nonzero">
-    <polygon points="18 12.485 18 17 0 17 0 0 5.061 0 5.061 12.485"/>
-    <path d="M62.991,0 L56.069,0 L50.841,5.265 L45.64,0 L33.537,0 L33.537,8.355 C33.537,10.39 32.904,12.547 28.355,12.547 C23.805,12.547 23.173,10.418 23.173,8.355 L23.173,0 L18,0 L18,8.355 C18,14.199 21.107,17 28.364,17 C35.593,17 38.728,14.171 38.728,8.355 L38.728,0.327 C38.728,0.215 38.858,0.159 38.942,0.233 L47.25,8.374 L38.7,16.748 L45.649,16.748 L50.85,11.483 L56.078,16.748 L63,16.748 L54.478,8.374 L62.991,0 Z"/>
+    ${WORDMARK}
   </g>
 </svg>`;
 }

@@ -1,6 +1,6 @@
 {
   "name": "@luxfi/logo",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "Official Lux logo package with React components and utilities",
   "type": "module",
   "main": "dist/index.js",
@@ -26,7 +26,16 @@
       "types": "./dist/react.d.ts",
       "import": "./dist/react.js",
       "require": "./dist/react.js"
-    }
+    },
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "import": "./dist/icons.js",
+      "require": "./dist/icons.js"
+    },
+    "./svg/*": "./svg/*"
+  },
+  "bin": {
+    "lux-icons": "dist/icons.js"
   },
   "scripts": {
     "build": "npm run clean && npm run compile && npm run build:cli",
