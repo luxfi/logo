@@ -7,7 +7,10 @@ import {
   getFaviconSVG,
   getWordmarkSVG,
   getWordmarkAdaptiveSVG,
+  getLXSVG,
+  getLXAdaptiveSVG,
   WORDMARK_BOX,
+  LX_BOX,
 } from './logos.js';
 import type { LogoVariant } from './types.js';
 
@@ -85,29 +88,39 @@ export interface WordmarkProps {
 }
 
 /**
- * LUX — the full wordmark.
- *
- * Sized by HEIGHT, with width left to follow the aspect ratio. This component
- * used to render the ▼ triangle, so every caller asking for a wordmark got a
- * mark, and callers who then forced a square box got a squashed one.
+ * Letters, sized by HEIGHT with the width left to follow the aspect ratio.
+ * Wordmark used to render the ▼ triangle, so every caller asking for letters
+ * got a mark, and callers who then forced a square box got a squashed one.
  */
-export const Wordmark: React.FC<WordmarkProps> = ({ height = 28, adaptive, className, style }) => {
-  const svg = adaptive ? getWordmarkAdaptiveSVG() : getWordmarkSVG();
-  const h = typeof height === 'number' ? `${height}px` : height;
-  return (
+function letters(
+  label: string,
+  box: { width: number; height: number },
+  plain: () => string,
+  adapting: () => string
+): React.FC<WordmarkProps> {
+  return ({ height = 28, adaptive, className, style }) => (
     <span
       className={className}
-      aria-label="LUX"
+      aria-label={label}
       role="img"
       style={{
         display: 'inline-block',
-        height: h,
-        aspectRatio: `${WORDMARK_BOX.width} / ${WORDMARK_BOX.height}`,
+        height: typeof height === 'number' ? `${height}px` : height,
+        aspectRatio: `${box.width} / ${box.height}`,
         ...style,
       }}
       dangerouslySetInnerHTML={{
-        __html: svg.replace(/^<svg /, '<svg style="width:100%;height:100%;display:block" '),
+        __html: (adaptive ? adapting() : plain()).replace(
+          /^<svg /,
+          '<svg style="width:100%;height:100%;display:block" '
+        ),
       }}
     />
   );
-};
+}
+
+/** LUX — the full wordmark. Every Lux surface but the exchange wears this. */
+export const Wordmark = letters('LUX', WORDMARK_BOX, getWordmarkSVG, getWordmarkAdaptiveSVG);
+
+/** LX — the same letters short a U. lux.exchange wears this, and only it. */
+export const LX = letters('LX', LX_BOX, getLXSVG, getLXAdaptiveSVG);

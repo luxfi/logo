@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
-import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getWhiteSVG, getWordmarkSVG, getWordmarkAdaptiveSVG, getWordmarkSquareSVG } from './logos.js';
+import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getWhiteSVG, getWordmarkSVG, getWordmarkAdaptiveSVG, getWordmarkSquareSVG, getLXSVG, getLXAdaptiveSVG, getLXSquareSVG } from './logos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -126,7 +126,12 @@ async function buildAll(): Promise<void> {
     // icon slots. Surfaces reach these over the CDN when they cannot import.
     fs.writeFileSync('svg/lux-wordmark.svg', getWordmarkAdaptiveSVG());
     fs.writeFileSync('svg/lux-wordmark-square.svg', getWordmarkSquareSVG());
-    console.log('✓ Generated 7 SVG sources\n');
+    // LX, in the same three shapes. The exchange serves these two files
+    // directly; the currentColor one is for surfaces that inline it.
+    fs.writeFileSync('svg/lux-lx.svg', getLXAdaptiveSVG());
+    fs.writeFileSync('svg/lux-lx-square.svg', getLXSquareSVG());
+    fs.writeFileSync('dist/lux-lx.svg', getLXSVG());
+    console.log('✓ Generated 10 SVG sources\n');
 
     // Standard Icons
     console.log('📁 Standard Icons (dist/icons/):');

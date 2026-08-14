@@ -17,13 +17,20 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import sharp from 'sharp';
-import { getWordmarkSquareSVG } from './logos.js';
+import { getWordmarkSquareSVG, getLXSquareSVG } from './logos.js';
+
+/** Which letters go in the square. lux.exchange takes 'lx'; everything else 'lux'. */
+export type Mark = 'lux' | 'lx';
+
+const SQUARE = { lux: getWordmarkSquareSVG, lx: getLXSquareSVG };
 
 export interface IconSet {
   /** Ground for the raster icons. */
   background?: string;
   /** Mark colour on that ground. */
   fill?: string;
+  /** Letters to draw. Defaults to the full wordmark. */
+  mark?: Mark;
 }
 
 const RASTER = [
@@ -33,17 +40,18 @@ const RASTER = [
 ];
 
 export async function writeIcons(outDir: string, opts: IconSet = {}): Promise<string[]> {
-  const { background = '#0a0a0a', fill = '#ffffff' } = opts;
+  const { background = '#0a0a0a', fill = '#ffffff', mark = 'lux' } = opts;
+  const squareSVG = SQUARE[mark];
   fs.mkdirSync(outDir, { recursive: true });
 
   const written: string[] = [];
 
   // The tab icon: no ground, so it reads on light and dark chrome alike.
   const svgPath = path.join(outDir, 'icon.svg');
-  fs.writeFileSync(svgPath, getWordmarkSquareSVG());
+  fs.writeFileSync(svgPath, squareSVG());
   written.push(svgPath);
 
-  const raster = Buffer.from(getWordmarkSquareSVG({ fill, background }));
+  const raster = Buffer.from(squareSVG({ fill, background }));
   for (const { name, size } of RASTER) {
     const out = path.join(outDir, name);
     await sharp(raster, { density: 384 }).resize(size, size).png().toFile(out);
@@ -57,10 +65,14 @@ export async function writeIcons(outDir: string, opts: IconSet = {}): Promise<st
 if (process.argv[1] && import.meta.url.endsWith(path.basename(process.argv[1]))) {
   const outDir = process.argv[2];
   if (!outDir) {
-    console.error('usage: lux-icons <outDir> [--bg=#0a0a0a] [--fill=#ffffff]');
+    console.error('usage: lux-icons <outDir> [--bg=#0a0a0a] [--fill=#ffffff] [--mark=lux|lx]');
     process.exit(1);
   }
   const arg = (k: string) => process.argv.find((a) => a.startsWith(`--${k}=`))?.split('=')[1];
-  const files = await writeIcons(outDir, { background: arg('bg'), fill: arg('fill') });
+  const files = await writeIcons(outDir, {
+    background: arg('bg'),
+    fill: arg('fill'),
+    mark: arg('mark') as Mark | undefined,
+  });
   for (const f of files) console.log(`✓ ${f}`);
 }
