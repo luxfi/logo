@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
-import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getWhiteSVG } from './logos.js';
+import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getFaviconRasterSVG, getWhiteSVG } from './logos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -96,6 +96,7 @@ async function buildAll(): Promise<void> {
     const monoSVG = getMonoSVG();
     const menuBarSVG = getMenuBarSVG();
     const faviconSVG = getFaviconSVG();
+    const faviconRasterSVG = getFaviconRasterSVG();
     const whiteSVG = getWhiteSVG();
 
     const dirs = ['dist', 'dist/icons', 'dist/favicon', 'dist/og', 'dist/apple', 'dist/dock', 'dist/menubar'];
@@ -126,7 +127,7 @@ async function buildAll(): Promise<void> {
     // Favicons
     console.log('\n📁 Favicons (dist/favicon/):');
     for (const size of [16, 32, 48, 64, 96, 128, 192, 256, 512]) {
-        await generateIcon(faviconSVG, `dist/favicon/favicon-${size}.png`, size);
+        await generateIcon(faviconRasterSVG, `dist/favicon/favicon-${size}.png`, size);
     }
 
     // Apple Touch Icons

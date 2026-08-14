@@ -52,12 +52,31 @@ export function getMenuBarSVG(): string {
   </svg>`;
 }
 
-/** Favicon SVG (white ▼ on black rounded rect) */
+/**
+ * Favicon SVG — the ▼ drawn as a hairline outline, no ground, no fill.
+ *
+ * translate(0 -5) centres the 60-tall mark in the 100 box; the logo sits
+ * low by design, a tab icon should not. non-scaling-stroke keeps the line
+ * one device pixel at every size, so 16px and 512px carry the same weight
+ * instead of the line thickening as the icon grows. Colour follows the
+ * tab's scheme, the same .w convention the wordmark uses.
+ */
 export function getFaviconSVG(): string {
-  return `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-    <rect width="64" height="64" rx="8" fill="#000000"/>
-    <path d="M32 52 L12 18 L52 18 Z" fill="#ffffff"/>
-  </svg>`;
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>.w{stroke:#121312}@media(prefers-color-scheme:dark){.w{stroke:#fff}}</style>
+  <path class="w" d="${TRIANGLE}" transform="translate(0 -5)" fill="none" stroke-width="1" vector-effect="non-scaling-stroke"/>
+</svg>`;
+}
+
+/**
+ * Favicon in one fixed tone, for the .ico and .png fallbacks a raster
+ * cannot carry a media query into. #7a7f85 is the tone that clears 3:1
+ * against both a light and a dark tab strip; white would vanish on one,
+ * near-black on the other.
+ */
+export function getFaviconRasterSVG(): string {
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path d="${TRIANGLE}" transform="translate(0 -5)" fill="none" stroke="#7a7f85" stroke-width="1" vector-effect="non-scaling-stroke"/>
+</svg>`;
 }
 
 /** Get logo as data URL */
