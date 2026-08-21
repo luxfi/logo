@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
-import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getFaviconRasterSVG, getWhiteSVG } from './logos.js';
+import { getColorSVG, getFaviconRasterSVG, getFaviconSVG, getLXAdaptiveSVG, getLXSVG, getLXSquareSVG, getMenuBarSVG, getMonoSVG, getWhiteSVG, getWordmarkAdaptiveSVG, getWordmarkSVG, getWordmarkSquareSVG } from './logos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -96,10 +96,9 @@ async function buildAll(): Promise<void> {
     const monoSVG = getMonoSVG();
     const menuBarSVG = getMenuBarSVG();
     const faviconSVG = getFaviconSVG();
-    const faviconRasterSVG = getFaviconRasterSVG();
     const whiteSVG = getWhiteSVG();
 
-    const dirs = ['dist', 'dist/icons', 'dist/favicon', 'dist/og', 'dist/apple', 'dist/dock', 'dist/menubar'];
+    const dirs = ['dist', 'dist/icons', 'dist/favicon', 'dist/og', 'dist/apple', 'dist/dock', 'dist/menubar', 'svg'];
     for (const dir of dirs) {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
@@ -113,7 +112,26 @@ async function buildAll(): Promise<void> {
     fs.writeFileSync('dist/lux-logo-white.svg', whiteSVG);
     fs.writeFileSync('dist/lux-logo-menubar.svg', menuBarSVG);
     fs.writeFileSync('dist/lux-favicon.svg', faviconSVG);
-    console.log('✓ Generated 5 SVG sources\n');
+
+    // svg/ is what the CDN paths point at — @luxfi/brand names
+    // svg/lux-icon-white.svg and svg/lux-wordmark-white.svg, and every surface that
+    // draws a Lux mark resolves through those. They were maintained BY HAND beside a
+    // generator that already knew the geometry, so the triangle lived in two places
+    // and only one of them was ever regenerated. Written from the same functions as
+    // dist/, so the two can no longer disagree.
+    fs.writeFileSync('svg/lux-icon-white.svg', whiteSVG);
+    fs.writeFileSync('svg/lux-favicon.svg', faviconSVG);
+    fs.writeFileSync('svg/lux-wordmark-white.svg', getWordmarkSVG());
+    // The wordmark on its own, taking contrast from the ground, and squared for
+    // icon slots. Surfaces reach these over the CDN when they cannot import.
+    fs.writeFileSync('svg/lux-wordmark.svg', getWordmarkAdaptiveSVG());
+    fs.writeFileSync('svg/lux-wordmark-square.svg', getWordmarkSquareSVG());
+    // LX, in the same three shapes. The exchange serves these two files
+    // directly; the currentColor one is for surfaces that inline it.
+    fs.writeFileSync('svg/lux-lx.svg', getLXAdaptiveSVG());
+    fs.writeFileSync('svg/lux-lx-square.svg', getLXSquareSVG());
+    fs.writeFileSync('dist/lux-lx.svg', getLXSVG());
+    console.log('✓ Generated 10 SVG sources\n');
 
     // Standard Icons
     console.log('📁 Standard Icons (dist/icons/):');
@@ -127,7 +145,7 @@ async function buildAll(): Promise<void> {
     // Favicons
     console.log('\n📁 Favicons (dist/favicon/):');
     for (const size of [16, 32, 48, 64, 96, 128, 192, 256, 512]) {
-        await generateIcon(faviconRasterSVG, `dist/favicon/favicon-${size}.png`, size);
+        await generateIcon(faviconSVG, `dist/favicon/favicon-${size}.png`, size);
     }
 
     // Apple Touch Icons
