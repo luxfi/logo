@@ -9,7 +9,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 import sharp from 'sharp';
-import { getColorSVG, getFaviconRasterSVG, getFaviconSVG, getLXAdaptiveSVG, getLXSVG, getLXSquareSVG, getMenuBarSVG, getMonoSVG, getWhiteSVG, getWordmarkAdaptiveSVG, getWordmarkSVG, getWordmarkSquareSVG } from './logos.js';
+import { getColorSVG, getMonoSVG, getMenuBarSVG, getFaviconSVG, getFaviconKeyedSVG, getWhiteSVG, getWordmarkSVG, getWordmarkAdaptiveSVG, getWordmarkSquareSVG, getLXSVG, getLXAdaptiveSVG, getLXSquareSVG } from './logos.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -96,6 +96,10 @@ async function buildAll(): Promise<void> {
     const monoSVG = getMonoSVG();
     const menuBarSVG = getMenuBarSVG();
     const faviconSVG = getFaviconSVG();
+    // What the .png and .ico are drawn from. A raster carries no media query, so
+    // it cannot take its tone from the tab the way favicon.svg does; it gets the
+    // keyed mark, which reads on either ground.
+    const faviconKeyedSVG = getFaviconKeyedSVG();
     const whiteSVG = getWhiteSVG();
 
     const dirs = ['dist', 'dist/icons', 'dist/favicon', 'dist/og', 'dist/apple', 'dist/dock', 'dist/menubar', 'svg'];
@@ -145,7 +149,7 @@ async function buildAll(): Promise<void> {
     // Favicons
     console.log('\n📁 Favicons (dist/favicon/):');
     for (const size of [16, 32, 48, 64, 96, 128, 192, 256, 512]) {
-        await generateIcon(faviconSVG, `dist/favicon/favicon-${size}.png`, size);
+        await generateIcon(faviconKeyedSVG, `dist/favicon/favicon-${size}.png`, size);
     }
 
     // Apple Touch Icons

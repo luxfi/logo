@@ -19,6 +19,22 @@ export const LOGO_SETTINGS: LogoSettings = {
 // ▼ — the triangle path used everywhere
 const TRIANGLE = 'M50 85 L15 25 L85 25 Z';
 
+// A mark written to a file has no text colour to take, so `currentColor` in one
+// paints black on a dark tab as readily as on a light one. This is the way out:
+// the ground states its scheme, and the mark asks.
+const ADAPTIVE = `<style>.w{fill:#121312}@media(prefers-color-scheme:dark){.w{fill:#fff}}</style>`;
+
+/**
+ * The mark, lifted into the middle of its square.
+ *
+ * The path is written 5 low of centre — y runs 25..85, whose middle is 55, not
+ * 50 — while x runs 15..85 and is centred. Everywhere the mark is a logo the
+ * caller places it and 5 units in 100 goes unseen. An icon slot is where it
+ * shows: the tab crops to a square and the mark sits low in it.
+ */
+const lifted = (attrs: string) =>
+  `<path d="${TRIANGLE}" transform="translate(0 -5)" ${attrs}/>`;
+
 /** Color SVG logo (white ▼ on transparent) */
 export function getColorSVG(): string {
   return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -53,18 +69,66 @@ export function getMenuBarSVG(): string {
 }
 
 /**
- * Favicon SVG — the ▼ drawn as a hairline outline, no ground, no fill.
+ * Favicon SVG — the ▼ solid, taking its tone from the tab. No container.
  *
- * translate(0 -5) centres the 60-tall mark in the 100 box; the logo sits
- * low by design, a tab icon should not. non-scaling-stroke keeps the line
- * one device pixel at every size, so 16px and 512px carry the same weight
- * instead of the line thickening as the icon grows. Colour follows the
- * tab's scheme, the same .w convention the wordmark uses.
+ * A favicon does not get to choose what is behind it: browsers paint the active
+ * tab white in light mode and near-black in dark, so a mark fixed at one tone is
+ * invisible on half of them. An SVG can ask which it landed on, and that is the
+ * whole mechanism — near-black ink on a light tab, white on a dark one, one file
+ * for both. The same `ADAPTIVE` sheet the wordmarks use.
+ *
+ * Solid, because the answer to "will it read at 16px" is area. This was shipped
+ * for a while as a one-device-pixel outline, on the theory that a hairline is
+ * crisp at every size. It is crisp and it is not there: at 16px that outline
+ * paints 9% of the ink the solid does, and — the number that decides it — no
+ * pixel of it ever reaches full opacity. Its darkest is 23% of the way to the
+ * ink colour, so what the tab shows is a faint grey wireframe of a triangle,
+ * whichever scheme resolved.
+ *
+ * It used to sit on a black rounded rect, which solved the tone problem by
+ * giving the mark its own ground. The mark is a triangle; a box around it is a
+ * second shape to recognise, and at tab size the box is most of what you see.
+ *
+ * TRIANGLE, not a second copy of it. This function carried its own path on a
+ * 64-box — so the one place the geometry was supposed to live had a rival, and
+ * moving the mark would have moved everything except the favicon.
  */
 export function getFaviconSVG(): string {
-  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><style>.w{stroke:#121312}@media(prefers-color-scheme:dark){.w{stroke:#fff}}</style>
-  <path class="w" d="${TRIANGLE}" transform="translate(0 -5)" fill="none" stroke-width="1" vector-effect="non-scaling-stroke"/>
-</svg>`;
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${ADAPTIVE}
+    ${lifted('class="w"')}
+  </svg>`;
+}
+
+/**
+ * The ▼ in white, keyed in near-black — the favicon for slots that cannot ask.
+ *
+ * Every raster is one of those. A .png and a .ico carry no media query, so the
+ * scheme is decided when they are written and the tab they land on is not known
+ * then. White fill with a dark rim is what survives both: on a light tab the rim
+ * draws the shape, on a dark one the fill does.
+ *
+ * This is the fallback and not the primary. White-fill-plus-rim on a light
+ * ground is a thin dark outline around a white shape the ground already
+ * supplies — legible, but greyer than ink, which is why favicon.svg resolves
+ * its own tone rather than leaning on the rim.
+ *
+ * `stroke-linejoin="round"`, because a mitred join on a sharp vertex shoots a
+ * spike well past the mark. Measured on this triangle at this stroke width: the
+ * bottom point reaches 12.900 units past the vertex mitred against 6.500
+ * rounded, and the mitred ink lands at y=97.90 in a 100 box — 2.1 units of
+ * clearance, a third of a device pixel at 16px. All three vertices are near 60°,
+ * so all three spike; the mitre limit does not save it, since the limit clips at
+ * a ratio of 4 and these joins ask for 2.
+ *
+ * Stroke under fill, as two paths rather than `paint-order`: favicons are
+ * rasterised by more than browsers (ico pipelines, resvg, librsvg), and a
+ * property one of them ignores would silently paint the keyline over the mark.
+ */
+export function getFaviconKeyedSVG(): string {
+  return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    ${lifted('fill="none" stroke="#0a0a0a" stroke-width="13" stroke-linejoin="round"')}
+    ${lifted('fill="#ffffff"')}
+  </svg>`;
 }
 
 /** Get logo as data URL */
@@ -114,11 +178,6 @@ const WORDMARK = `${LETTER_L}
 
 /** The wordmark's own proportions. 63:17 ≈ 3.7:1 — it is a stripe, not a square. */
 export const WORDMARK_BOX = { width: 63, height: 17 };
-
-// A mark written to a file has no text colour to take, so `currentColor` in one
-// paints black on a dark tab as readily as on a light one. This is the way out:
-// the ground states its scheme, and the mark asks.
-const ADAPTIVE = `<style>.w{fill:#121312}@media(prefers-color-scheme:dark){.w{fill:#fff}}</style>`;
 
 /**
  * Letterbox a mark into a square, for icon slots — favicon, apple-touch,
@@ -269,12 +328,13 @@ export function getLXSquareSVG(options: { fill?: string; background?: string; in
   return square(LX, LX_BOX, options);
 }
 
-// Pre-generated exports
 export const logo = getColorSVG();
 export const logoMono = getMonoSVG();
 export const logoWhite = getWhiteSVG();
 export const wordmark = getWordmarkSVG();
 export const wordmarkGradient = getWordmarkGradientSVG();
+export const favicon = getFaviconSVG();
+export const faviconKeyed = getFaviconKeyedSVG();
 export const lx = getLXSVG();
 export const logoDataUrl = getLogoDataUrl();
 export const logoMonoDataUrl = getLogoDataUrl({ variant: 'mono' });
@@ -286,6 +346,8 @@ export const luxLogoMono = logoMono;
 export const luxLogoWhite = logoWhite;
 export const luxWordmark = wordmark;
 export const luxWordmarkGradient = wordmarkGradient;
+export const luxFavicon = favicon;
+export const luxFaviconKeyed = faviconKeyed;
 export const luxLogoDataUrl = logoDataUrl;
 export const luxLogoMonoDataUrl = logoMonoDataUrl;
 export const luxLogoWhiteDataUrl = logoWhiteDataUrl;

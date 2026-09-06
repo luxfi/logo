@@ -59,19 +59,22 @@ export const Logo: React.FC<LogoProps> = ({
 };
 
 /**
- * Favicon links for <head>.
+ * Favicon link for <head>.
  *
- * Draws the keyed favicon, not the plain white mark: a tab is painted white in
- * light mode, so a white mark on it is an empty tab.
+ * Draws the favicon mark, not the plain white one: a tab is painted white in
+ * light mode, so a white mark on it is an empty tab. The mark carries the media
+ * query that resolves that, which survives the data: URL — the sheet travels
+ * inside the document it styles.
+ *
+ * An apple-touch-icon used to ride along here and could never have worked. iOS
+ * reads only a raster for the home screen, so an SVG in that slot is not a
+ * wrong icon, it is no icon — and it fails the way this whole family fails,
+ * with nothing in a console anywhere. A home-screen icon is a PNG on an opaque
+ * ground, which is a file a site serves, not a data: URL a component emits.
  */
 export const Favicon: React.FC = () => {
   const dataUrl = `data:image/svg+xml,${encodeURIComponent(getFaviconSVG())}`;
-  return (
-    <>
-      <link rel="icon" type="image/svg+xml" href={dataUrl} />
-      <link rel="apple-touch-icon" href={dataUrl} />
-    </>
-  );
+  return <link rel="icon" type="image/svg+xml" href={dataUrl} />;
 };
 
 // Legacy aliases
@@ -124,3 +127,8 @@ export const Wordmark = letters('LUX', WORDMARK_BOX, getWordmarkSVG, getWordmark
 
 /** LX — the same letters short a U. lux.exchange wears this, and only it. */
 export const LX = letters('LX', LX_BOX, getLXSVG, getLXAdaptiveSVG);
+
+// Legacy component aliases
+export { Wordmark as LuxWordmark };
+
+

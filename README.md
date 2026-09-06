@@ -44,13 +44,14 @@ stretched to fill, and never cropped down to `LU`.
 
 ```ts
 import {
-  getColorSVG, getMonoSVG, getFaviconSVG,
+  getColorSVG, getMonoSVG, getFaviconSVG, getFaviconKeyedSVG,
   getWordmarkSVG, getWordmarkAdaptiveSVG, getWordmarkSquareSVG,
 } from '@luxfi/logo'
 
 getColorSVG()            // white ▼ on transparent
 getMonoSVG()             // outline ▼
-getFaviconSVG()          // ▼ keyed for the tab — reads on light and dark
+getFaviconSVG()          // ▼ solid, taking its tone from the tab — favicon.svg
+getFaviconKeyedSVG()     // ▼ white, keyed dark — for .png/.ico, which cannot ask
 getWordmarkSVG()         // LUX as paths, white
 getWordmarkAdaptiveSVG() // LUX, taking contrast from the ground it lands on
 getWordmarkSquareSVG()   // LUX letterboxed into a square, for icon slots
@@ -64,7 +65,8 @@ getWordmarkSquareSVG()   // LUX letterboxed into a square, for icon slots
 | `mono` | Outline ▼ — for print, light backgrounds |
 | `white` | Same as color — explicit white fill |
 | `menuBar` | Uses `currentColor` — adapts to OS theme |
-| `favicon` | ▼ in white with a dark keyline, no container — browser tab |
+| `favicon` | Solid ▼ that reads the tab's colour scheme, no container — browser tab |
+| `faviconKeyed` | ▼ in white with a dark keyline — the same slot rendered to `.png`/`.ico`, which carry no media query |
 
 ## Icon slots
 
