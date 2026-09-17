@@ -30,7 +30,7 @@
   },
   "scripts": {
     "build": "npm run clean && npm run compile && npm run build:cli",
-    "build:cli": "tsc src/build.ts --outDir dist --module esnext --target es2020 --moduleResolution node --esModuleInterop --skipLibCheck",
+    "build:cli": "tsc --ignoreConfig src/build.ts --outDir dist --module esnext --target es2020 --moduleResolution bundler --esModuleInterop --skipLibCheck",
     "compile": "tsc",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
@@ -61,7 +61,7 @@
     "@types/node": "^20.19.17",
     "@types/react": "^18.3.24",
     "react": "^18.3.1",
-    "typescript": "^5.9.2"
+    "typescript": "7.0.2"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
